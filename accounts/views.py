@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 
 from .serializers import UserSerializer
 
@@ -47,7 +48,7 @@ class UserView(APIView):
     def get(self, request):
         try:
             user = request.user
-            user = UserSerializer(user)
+            user = UserSerializer(user, context={"request": request})
 
             return Response(
                 {'user': user.data},
@@ -59,3 +60,8 @@ class UserView(APIView):
                 {'error': 'ユーザーの取得に問題が発生しました'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+# 追加
+class UserViewSet(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer

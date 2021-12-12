@@ -31,6 +31,9 @@ class UserManager(BaseUserManager):
 class UserAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField("メールアドレス", max_length=255, unique=True)
     name = models.CharField("名前", max_length=255)
+    image = models.ImageField(upload_to='images', verbose_name='プロフィール画像', default='profile/default.png') # 追加
+    updated_at = models.DateTimeField("更新日", auto_now=True) # 追加
+    created_at = models.DateTimeField("作成日", auto_now_add=True) # 追加
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -41,4 +44,4 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['name']
 
     def __str__(self):
-        return self.email
+        return self.name

@@ -41,9 +41,11 @@ INSTALLED_APPS = [
     'rest_framework', # 追加
     'app', # 追加
     'accounts', # 追加
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # 追加
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -51,6 +53,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+# 追加
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -134,7 +141,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ]
+    ],
+    'DATETIME_FORMAT': '%Y/%m/%d %H:%M', # 追加
 }
 
 SIMPLE_JWT = {
@@ -147,3 +155,6 @@ SIMPLE_JWT = {
 }
 
 AUTH_USER_MODEL = 'accounts.UserAccount'
+
+MEDIA_URL = '/media/' # 追加
+MEDIA_ROOT = str(BASE_DIR / 'media') # 追加
